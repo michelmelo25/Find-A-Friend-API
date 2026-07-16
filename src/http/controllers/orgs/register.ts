@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
+import { RegisterService } from "@/services/register";
+import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 
 export async function register(request: FastifyRequest, replay: FastifyReply) {
   const registerBodySchema = z.object({
@@ -19,20 +19,14 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
 
   const org = registerBodySchema.parse(request.body);
 
-  await prisma.org.create({
-    data: {
-      name: org.name,
-      email: org.email,
-      password_hash: org.password,
-      whatsapp: org.whatsapp,
-      cep: org.cep,
-      state: org.state,
-      city: org.city,
-      neighborhood: org.neighborhood,
-      latitude: new Prisma.Decimal(org.latitude),
-      longitude: new Prisma.Decimal(org.longitude),
-    },
-  });
+  try {
+    const orgsRepository = new PrismaOrgsRepository();
+    const registerOrgService = new RegisterService(orgsRepository);
+
+    await registerOrgService.execute(org);
+  } catch (error) {
+    return replay.status(409).send({});
+  }
 
   return replay.status(201).send();
 }
