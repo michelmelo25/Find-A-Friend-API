@@ -1,5 +1,6 @@
 import { OrgsRepository } from "@/repositories/orgs-repositore";
 import { hash } from "bcryptjs";
+import { EmailAlreadeExistsError } from "./errors/email-already-exists";
 
 interface RegisterInterfaceRequest {
   name: string;
@@ -34,7 +35,7 @@ export class RegisterService {
     const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
 
     if (orgWithSameEmail) {
-      throw new Error("E-mail already exists.");
+      throw new EmailAlreadeExistsError();
     }
 
     await this.orgsRepository.create({

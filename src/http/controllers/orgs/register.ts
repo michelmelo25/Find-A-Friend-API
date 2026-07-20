@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { z } from "zod";
 import { RegisterService } from "@/services/register";
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
+import { EmailAlreadeExistsError } from "@/services/errors/email-already-exists";
 
 export async function register(request: FastifyRequest, replay: FastifyReply) {
   const registerBodySchema = z.object({
@@ -25,7 +26,10 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
 
     await registerOrgService.execute(org);
   } catch (error) {
-    return replay.status(409).send({});
+    if (error instanceof EmailAlreadeExistsError) {
+      return replay.status(409).send({ message: error.message });
+    }
+    throw error;
   }
 
   return replay.status(201).send();
