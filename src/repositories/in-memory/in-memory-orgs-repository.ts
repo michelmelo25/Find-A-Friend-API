@@ -25,19 +25,11 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     return org;
   }
 
-  async findByName(name: string): Promise<Org[] | null> {
+  findByMany(query: string, page: number): Promise<Org[] | null> {
     throw new Error("Method not implemented.");
   }
 
-  async findByCep(cep: string): Promise<Org[] | null> {
-    throw new Error("Method not implemented.");
-  }
-
-  async findByCity(city: string): Promise<Org[] | null> {
-    throw new Error("Method not implemented.");
-  }
-
-  async findManyNearby(params: FindhManyNearbyParams): Promise<Org[] | null> {
+  findManyNearby(params: FindhManyNearbyParams): Promise<Org[] | null> {
     throw new Error("Method not implemented.");
   }
 

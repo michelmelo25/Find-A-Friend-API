@@ -8,9 +8,7 @@ export interface FindhManyNearbyParams {
 export interface OrgsRepository {
   findById(id: string): Promise<Org | null>;
   findByEmail(email: string): Promise<Org | null>;
-  findByName(name: string): Promise<Org[] | null>;
-  findByCep(cep: string): Promise<Org[] | null>;
-  findByCity(city: string): Promise<Org[] | null>;
+  findByMany(query: string, page: number): Promise<Org[] | null>;
   findManyNearby(params: FindhManyNearbyParams): Promise<Org[] | null>;
   create(data: Prisma.OrgCreateInput): Promise<Org>;
 }

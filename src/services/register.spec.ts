@@ -6,7 +6,7 @@ import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-
 import { EmailAlreadeExistsError } from "./errors/email-already-exists";
 
 describe("Register ORG Use Case", () => {
-  it("should hash org password upon registration", async () => {
+  it("should be able to register", async () => {
     const orgRepository = new InMemoryOrgsRepository();
     const registerService = new RegisterService(orgRepository);
 
@@ -65,7 +65,7 @@ describe("Register ORG Use Case", () => {
       longitude: "-39.0125",
     });
 
-    expect(() =>
+    await expect(() =>
       registerService.execute({
         name: "Pets",
         email: "contato03@pets.org",
