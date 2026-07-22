@@ -1,15 +1,20 @@
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { AuthenticateServise } from "./authenticate";
 import { faker } from "@faker-js/faker";
 import { hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-erros";
 
-describe("Authenticate ORG Use Case", () => {
-  it("should be able to authenticate", async () => {
-    const orgRepository = new InMemoryOrgsRepository();
-    const sut = new AuthenticateServise(orgRepository);
+let orgRepository: InMemoryOrgsRepository;
+let sut: AuthenticateServise;
 
+describe("Authenticate ORG Use Case", () => {
+  beforeEach(() => {
+    orgRepository = new InMemoryOrgsRepository();
+    sut = new AuthenticateServise(orgRepository);
+  });
+
+  it("should be able to authenticate", async () => {
     const emailOrgReister = faker.internet.email();
 
     await orgRepository.create({
@@ -34,9 +39,6 @@ describe("Authenticate ORG Use Case", () => {
   });
 
   it("should not be able to authenticate with wrong email", async () => {
-    const orgRepository = new InMemoryOrgsRepository();
-    const sut = new AuthenticateServise(orgRepository);
-
     const emailOrgReister = faker.internet.email();
 
     await expect(() =>
@@ -48,9 +50,6 @@ describe("Authenticate ORG Use Case", () => {
   });
 
   it("should not be able to authenticate with wrong password", async () => {
-    const orgRepository = new InMemoryOrgsRepository();
-    const sut = new AuthenticateServise(orgRepository);
-
     const emailOrgReister = faker.internet.email();
 
     await orgRepository.create({

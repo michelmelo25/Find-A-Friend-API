@@ -12,8 +12,8 @@ interface RegisterInterfaceRequest {
   state: string;
   city: string;
   neighborhood: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface RegisterOrgServiceResponse {
@@ -35,6 +35,9 @@ export class RegisterService {
     latitude,
     longitude,
   }: RegisterInterfaceRequest): Promise<RegisterOrgServiceResponse> {
+    if (whatsapp === null || whatsapp.length === 0) {
+      console.log("whatsapp não informado");
+    }
     const password_hash = await hash(password, 6);
 
     const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
