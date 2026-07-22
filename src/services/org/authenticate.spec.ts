@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { AuthenticateServise } from "./authenticate";
 import { faker } from "@faker-js/faker";
 import { hash } from "bcryptjs";
-import { InvalidCredentialsError } from "./errors/invalid-credentials-erros";
+import { InvalidCredentialsError } from "../errors/invalid-credentials-erros";
 
 let orgRepository: InMemoryOrgsRepository;
 let sut: AuthenticateServise;
@@ -26,8 +26,8 @@ describe("Authenticate ORG Use Case", () => {
       state: "CE",
       city: "Solonópole",
       neighborhood: "Centro",
-      latitude: "-5.7338",
-      longitude: "-39.0125",
+      latitude: -5.7338,
+      longitude: -39.0125,
     });
 
     const { org } = await sut.execute({
@@ -61,8 +61,8 @@ describe("Authenticate ORG Use Case", () => {
       state: "CE",
       city: "Solonópole",
       neighborhood: "Centro",
-      latitude: "-5.7338",
-      longitude: "-39.0125",
+      latitude: -5.7338,
+      longitude: -39.0125,
     });
 
     await expect(() =>

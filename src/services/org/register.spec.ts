@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { RegisterService } from "./register";
 import { compare } from "bcryptjs";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
-import { EmailAlreadeExistsError } from "./errors/email-already-exists";
+import { EmailAlreadeExistsError } from "../errors/email-already-exists";
 
 let orgRepository: InMemoryOrgsRepository;
 let sut: RegisterService;
@@ -24,8 +24,8 @@ describe("Register ORG Use Case", () => {
       state: "CE",
       city: "Solonópole",
       neighborhood: "Centro",
-      latitude: "-5.7338",
-      longitude: "-39.0125",
+      latitude: -5.7338,
+      longitude: -39.0125,
     });
 
     expect(org.id).toEqual(expect.any(String));
@@ -41,8 +41,8 @@ describe("Register ORG Use Case", () => {
       state: "CE",
       city: "Solonópole",
       neighborhood: "Centro",
-      latitude: "-5.7338",
-      longitude: "-39.0125",
+      latitude: -5.7338,
+      longitude: -39.0125,
     });
 
     const isPasswordCorrectHashed = await compare("123456", org.password_hash);
@@ -60,8 +60,8 @@ describe("Register ORG Use Case", () => {
       state: "CE",
       city: "Solonópole",
       neighborhood: "Centro",
-      latitude: "-5.7338",
-      longitude: "-39.0125",
+      latitude: -5.7338,
+      longitude: -39.0125,
     });
 
     await expect(() =>
@@ -74,8 +74,8 @@ describe("Register ORG Use Case", () => {
         state: "CE",
         city: "Solonópole",
         neighborhood: "Centro",
-        latitude: "-5.7338",
-        longitude: "-39.0125",
+        latitude: -5.7338,
+        longitude: -39.0125,
       }),
     ).rejects.toBeInstanceOf(EmailAlreadeExistsError);
   });

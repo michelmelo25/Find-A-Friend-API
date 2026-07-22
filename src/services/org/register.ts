@@ -1,6 +1,6 @@
 import { OrgsRepository } from "@/repositories/orgs-repositore";
 import { hash } from "bcryptjs";
-import { EmailAlreadeExistsError } from "./errors/email-already-exists";
+import { EmailAlreadeExistsError } from "../errors/email-already-exists";
 import { Org } from "@/generated/prisma/client";
 
 interface RegisterInterfaceRequest {

@@ -1,5 +1,5 @@
 import { OrgsRepository } from "@/repositories/orgs-repositore";
-import { InvalidCredentialsError } from "./errors/invalid-credentials-erros";
+import { InvalidCredentialsError } from "../errors/invalid-credentials-erros";
 import { compare } from "bcryptjs";
 import { Org } from "@/generated/prisma/client";
 
