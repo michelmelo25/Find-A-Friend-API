@@ -3,7 +3,7 @@ import { FindhManyNearbyParams, OrgsRepository } from "../orgs-repositore";
 import { Decimal } from "@prisma/client/runtime/client";
 
 export class InMemoryOrgsRepository implements OrgsRepository {
-  public orgs: any[] = [];
+  public orgs: Org[] = [];
 
   async findById(id: string): Promise<Org | null> {
     const org = this.orgs.find((item) => item.id === id);

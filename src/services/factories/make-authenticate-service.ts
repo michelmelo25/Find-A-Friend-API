@@ -1,5 +1,5 @@
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
-import { AuthenticateServise } from "../authenticate";
+import { AuthenticateServise } from "../org/authenticate";
 
 export function makeAuthenticateService() {
   const orgsRepository = new PrismaOrgsRepository();

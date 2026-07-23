@@ -2,4 +2,5 @@ import { Pet, Prisma } from "@/generated/prisma/client";
 
 export interface PetsRepository {
   create(data: Prisma.PetUncheckedCreateInput): Promise<Pet>;
+  findByCity(city: string, UF: string): Promise<Pet[] | null>;
 }
