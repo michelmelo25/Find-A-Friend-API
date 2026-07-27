@@ -23,9 +23,47 @@ describe("GET PET Use Case", () => {
 
     const { pets } = await sut.execute({
       city: "São Paulo",
-      UF: "SP",
+      uf: "SP",
     });
 
     expect(pets).toHaveLength(4);
+  });
+
+  it("It should be possible to obtain a list of permitted pets by age.", async () => {
+    const { pets_Populate, orgs } = populatePets();
+
+    orgRepository.orgs = orgs;
+    petRepository.items = pets_Populate;
+
+    const { pets } = await sut.execute({
+      city: "São Paulo",
+      uf: "SP",
+      age: "BABY",
+    });
+    // ["BABY", "PUPPY", "ADULT", "SENIOR"]
+
+    const allMatchAge = pets.every((pet) => pet.age === "BABY");
+
+    expect(pets).toBeInstanceOf(Array);
+    expect(allMatchAge).toBe(true);
+  });
+
+  it("should be able to search pets by age", async () => {
+    const { pets_Populate, orgs } = populatePets();
+
+    orgRepository.orgs = orgs;
+    petRepository.items = pets_Populate;
+
+    const { pets } = await sut.execute({
+      city: "São Paulo",
+      uf: "SP",
+      age: "BABY",
+    });
+    // ["BABY", "PUPPY", "ADULT", "SENIOR"]
+
+    const allMatchAge = pets.every((pet) => pet.age === "BABY");
+
+    expect(pets).toBeInstanceOf(Array);
+    expect(allMatchAge).toBe(true);
   });
 });

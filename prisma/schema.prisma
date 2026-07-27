@@ -59,7 +59,7 @@ model Pet {
   id                 String            @id @default(uuid())
   name               String
   about              String
-  age                String
+  age                Age
   size               Size
   energy_level       EnergyLevel
   independence_level IndependenceLevel

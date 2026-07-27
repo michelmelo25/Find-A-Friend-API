@@ -48,6 +48,7 @@ export function populatePets(): PopulatePetsResponse {
   });
 
   const pets: Pet[] = [];
+  // const age = ["BABY", "PUPPY", "ADULT", "SENIOR"];
 
   for (let i = 1; i <= 20; i++) {
     const petId = randomUUID();
@@ -59,7 +60,7 @@ export function populatePets(): PopulatePetsResponse {
       id: petId,
       name: faker.person.firstName(),
       about: faker.lorem.paragraph(),
-      age: faker.helpers.arrayElement(["Filhote", "Adulto", "Sênior"]),
+      age: faker.helpers.arrayElement(["BABY", "PUPPY", "ADULT", "SENIOR"]),
       size: faker.helpers.arrayElement(sizes),
       energy_level: faker.helpers.arrayElement(energyLevels),
       independence_level: faker.helpers.arrayElement(independenceLevels),

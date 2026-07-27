@@ -67,7 +67,6 @@ export class InMemoryPetsRepository implements PetsRepository {
       (org) => org.city.toLowerCase() === params.city.toLowerCase(),
     );
 
-    // 2. Extrai os IDs das ORGs encontradas
     const orgIdsInCity = orgsInCity.map((org) => org.id);
 
     const pets = this.items.filter((pet) => {
