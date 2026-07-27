@@ -95,6 +95,11 @@ export class InMemoryPetsRepository implements PetsRepository {
     });
 
     const page = params.page ?? 1;
-    return pets.slice((page - 1) * 20, page * 20);
+    if (params.page) {
+      // para executar o teste com banco pouco populado
+      return pets.slice((page - 1) * 2, page * 2);
+    } else {
+      return pets.slice((page - 1) * 20, page * 20);
+    }
   }
 }
