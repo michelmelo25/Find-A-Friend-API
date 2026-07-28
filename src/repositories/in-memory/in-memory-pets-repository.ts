@@ -2,10 +2,12 @@ import {
   EnergyLevel,
   IndependenceLevel,
   Pet,
+  Pet_image,
+  Pet_Requirement,
   Size,
 } from "@/generated/prisma/client";
 import { PetUncheckedCreateInput } from "@/generated/prisma/models";
-import { PetsRepository } from "../pets-repositore";
+import { PetWithRelations, PetsRepository } from "../pets-repositore";
 import { randomUUID } from "node:crypto";
 import { InMemoryOrgsRepository } from "./in-memory-orgs-repository";
 
@@ -22,8 +24,33 @@ export interface FindManyByOptionsParams {
 export class InMemoryPetsRepository implements PetsRepository {
   constructor(private orgRepository: InMemoryOrgsRepository) {}
   public items: Pet[] = [];
+  public requirement: Pet_Requirement[] = [];
+  public images: Pet_image[] = [];
 
-  async findByCity(city: string, UF: string): Promise<Pet[] | null> {
+  private mapPetWithRelations(pet: Pet): PetWithRelations {
+    return {
+      ...pet,
+      petRequirements: this.requirement.filter(
+        (item) => item.pet_id === pet.id,
+      ),
+      petImages: this.images.filter((item) => item.pet_id === pet.id),
+    };
+  }
+
+  async findById(id: string): Promise<PetWithRelations | null> {
+    const pet = this.items.find((data) => data.id === id);
+
+    if (!pet) {
+      return null;
+    }
+
+    return this.mapPetWithRelations(pet);
+  }
+
+  async findByCity(
+    city: string,
+    UF: string,
+  ): Promise<PetWithRelations[] | null> {
     const orgsInCity = this.orgRepository.orgs.filter(
       (org) =>
         org.city.toLowerCase() === city.toLowerCase() &&
@@ -40,7 +67,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       return null;
     }
 
-    return petsInCity;
+    return petsInCity.map((pet) => this.mapPetWithRelations(pet));
   }
 
   async create(data: PetUncheckedCreateInput): Promise<Pet> {
@@ -59,10 +86,44 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     this.items.push(pet);
 
+    if (data.petRequirements && "create" in data.petRequirements) {
+      const requirements = Array.isArray(data.petRequirements.create)
+        ? data.petRequirements.create
+        : [data.petRequirements.create];
+
+      for (const requirement of requirements) {
+        if (!requirement) continue;
+
+        this.requirement.push({
+          id: randomUUID(),
+          title: requirement.title,
+          pet_id: pet.id,
+        });
+      }
+    }
+
+    if (data.petImages && "create" in data.petImages) {
+      const images = Array.isArray(data.petImages.create)
+        ? data.petImages.create
+        : [data.petImages.create];
+
+      for (const image of images) {
+        if (!image) continue;
+
+        this.images.push({
+          id: randomUUID(),
+          url: image.url,
+          pet_id: pet.id,
+        });
+      }
+    }
+
     return pet;
   }
 
-  async findManyByOptions(params: FindManyByOptionsParams): Promise<Pet[]> {
+  async findManyByOptions(
+    params: FindManyByOptionsParams,
+  ): Promise<PetWithRelations[]> {
     const orgsInCity = this.orgRepository.orgs.filter(
       (org) => org.city.toLowerCase() === params.city.toLowerCase(),
     );
@@ -94,12 +155,14 @@ export class InMemoryPetsRepository implements PetsRepository {
       return true;
     });
 
+    const petsWithRelations = pets.map((pet) => this.mapPetWithRelations(pet));
+
     const page = params.page ?? 1;
     if (params.page) {
       // para executar o teste com banco pouco populado
-      return pets.slice((page - 1) * 2, page * 2);
+      return petsWithRelations.slice((page - 1) * 2, page * 2);
     } else {
-      return pets.slice((page - 1) * 20, page * 20);
+      return petsWithRelations.slice((page - 1) * 20, page * 20);
     }
   }
 }

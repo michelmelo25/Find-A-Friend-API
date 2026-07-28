@@ -1,19 +1,19 @@
 import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pets-repository";
 import { beforeEach, describe, expect, it } from "vitest";
-import { GetPetService } from "./get-pet";
+import { SearchPetService } from "./search-pet";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { populatePets } from "@/utils/populated-pet";
 import { Age, EnergyLevel, Size } from "@/generated/prisma/enums";
 
-let sut: GetPetService;
+let sut: SearchPetService;
 let orgRepository: InMemoryOrgsRepository;
 let petRepository: InMemoryPetsRepository;
 
-describe("GET PET Use Case", () => {
+describe("Search PET Use Case", () => {
   beforeEach(() => {
     orgRepository = new InMemoryOrgsRepository();
     petRepository = new InMemoryPetsRepository(orgRepository);
-    sut = new GetPetService(petRepository);
+    sut = new SearchPetService(petRepository);
   });
 
   it("should be able to get a list of pets allowed in a city", async () => {

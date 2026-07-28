@@ -4,36 +4,27 @@ import {
   Pet,
   Size,
 } from "@/generated/prisma/client";
-import { PetsRepository } from "@/repositories/pets-repositore";
+import {
+  PetWithRelations,
+  PetsRepository,
+} from "@/repositories/pets-repositore";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
 
-interface GetPetInterfaceRequest {
-  city: string;
-  uf: string;
-  age?: string;
-  energy_level?: EnergyLevel;
-  size?: Size;
-  independence_level?: IndependenceLevel;
-  page?: number;
-}
-
 interface GetPetInterfaceResponse {
-  pets: Pet[];
+  pet: PetWithRelations;
 }
 
 export class GetPetService {
   constructor(private petRepository: PetsRepository) {}
 
-  async execute(
-    data: GetPetInterfaceRequest,
-  ): Promise<GetPetInterfaceResponse> {
+  async execute(id: string): Promise<GetPetInterfaceResponse> {
     // const pets = await this.petRepository.findByCity(city, UF);
-    const pets = await this.petRepository.findManyByOptions(data);
+    const pet = await this.petRepository.findById(id);
 
-    if (!pets) {
+    if (!pet) {
       throw new ResourceNotFoundError();
     }
 
-    return { pets };
+    return { pet };
   }
 }
