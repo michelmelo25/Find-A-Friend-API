@@ -17,13 +17,22 @@ export async function authenticate(
   try {
     const authenticateOrgService = makeAuthenticateService();
 
-    await authenticateOrgService.execute({ email, password });
+    const { org } = await authenticateOrgService.execute({ email, password });
+
+    const token = await replay.jwtSign(
+      {},
+      {
+        sign: {
+          sub: org.id,
+        },
+      },
+    );
+
+    return replay.status(200).send({ token });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       return replay.status(400).send({ message: error.message });
     }
     throw error;
   }
-
-  return replay.status(200).send();
 }
