@@ -52,8 +52,8 @@ Para auxiliar no entendimento do negócio e em como os endpoints serão consumid
 
 ### 🛣️ Endpoints e Rotas
 
-- [ X ] Rota para cadastro de uma ORG (`POST /orgs`), validando obrigatoriedade de endereço e WhatsApp.
-- [ X ] Rota para autenticação/login da ORG (`POST /sessions`).
+- [x] Rota para cadastro de uma ORG (`POST /orgs`), validando obrigatoriedade de endereço e WhatsApp.
+- [x] Rota para autenticação/login da ORG (`POST /sessions`).
 - [ ] Rota para cadastro de um pet (`POST /pets`), com validação de vínculo de ID da ORG e middleware de autenticação.
 - [ ] Rota para listagem de pets (`GET /pets`), validando parâmetro de query/route de cidade obrigatório.
 - [ ] Implementação de filtros dinâmicos e opcionais por características dos pets na rota de listagem.
@@ -61,10 +61,10 @@ Para auxiliar no entendimento do negócio e em como os endpoints serão consumid
 
 ### 🏗️ Arquitetura e Qualidade
 
-- [ ] Implementação dos Casos de Uso (_Use Cases_) isolados para cada funcionalidade.
+- [x] Implementação dos Casos de Uso (_Use Cases_) isolados para cada funcionalidade.
 - [ ] Restrição de acessos administrativos utilizando middlewares de autenticação (JWT).
-- [ ] Criação de Repositórios em memória (_In-Memory Repositories_) para viabilizar testes isolados e rápidos.
-- [ ] Cobertura de Testes Unitários para validar todas as regras de negócio cruciais.
+- [x] Criação de Repositórios em memória (_In-Memory Repositories_) para viabilizar testes isolados e rápidos.
+- [x] Cobertura de Testes Unitários para validar todas as regras de negócio cruciais.
 - [ ] Cobertura de Testes de Integração (E2E) para garantir o comportamento correto das rotas e controllers da API.
 
 ---
