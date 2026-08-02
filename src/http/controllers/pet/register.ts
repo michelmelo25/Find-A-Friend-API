@@ -25,7 +25,7 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
     energy_level: z.enum(Object.values(EnergyLevel)),
     independence_level: z.enum(Object.values(IndependenceLevel)),
     environment: z.string().min(1, "O ambiente ideal é obrigatório."),
-    org_id: z.uuid(),
+
     petRequirements: z.array(z.string().min(1)).optional(),
     petImages: z.array(z.string().min(1)).optional(),
   });
@@ -35,7 +35,10 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
   try {
     const registerPetService = makeRegisterPetService();
 
-    const { pet } = await registerPetService.execute(body);
+    const { pet } = await registerPetService.execute({
+      ...body,
+      org_id: request.user.sub,
+    });
 
     return replay.status(201).send({ pet });
   } catch (error) {

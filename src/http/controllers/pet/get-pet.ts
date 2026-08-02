@@ -6,13 +6,13 @@ export async function getPet(request: FastifyRequest, replay: FastifyReply) {
   const petService = makeGetPetService();
 
   const petParamsSchema = z.object({
-    petId: z.uuid(),
+    id: z.uuid(),
   });
 
   try {
-    const { petId } = petParamsSchema.parse(request.params);
+    const { id } = petParamsSchema.parse(request.params);
 
-    const { pet } = await petService.execute(petId);
+    const { pet } = await petService.execute(id);
 
     return replay.status(200).send({ pet });
   } catch (error) {
