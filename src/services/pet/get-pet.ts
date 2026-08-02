@@ -1,10 +1,4 @@
 import {
-  EnergyLevel,
-  IndependenceLevel,
-  Pet,
-  Size,
-} from "@/generated/prisma/client";
-import {
   PetWithRelations,
   PetsRepository,
 } from "@/repositories/pets-repositore";

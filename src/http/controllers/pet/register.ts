@@ -1,5 +1,6 @@
 import {
   Age,
+  AnimalType,
   EnergyLevel,
   IndependenceLevel,
   Size,
@@ -19,6 +20,7 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
       .min(1, "A descrição sobre o pet é obrigatória.")
       .max(300, "A descrição deve ter no máximo 300 caracteres."),
     age: z.enum(Object.values(Age)),
+    animal_type: z.enum(Object.values(AnimalType)),
     size: z.enum(Object.values(Size)),
     energy_level: z.enum(Object.values(EnergyLevel)),
     independence_level: z.enum(Object.values(IndependenceLevel)),

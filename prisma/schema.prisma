@@ -12,6 +12,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum AnimalType {
+  DOG
+  CAT
+}
+
 enum Size {
   SMALL
   MEDIUM
@@ -60,6 +65,7 @@ model Pet {
   name               String
   about              String
   age                Age
+  animal_type        AnimalType
   size               Size
   energy_level       EnergyLevel
   independence_level IndependenceLevel

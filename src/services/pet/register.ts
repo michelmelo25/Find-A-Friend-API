@@ -1,6 +1,7 @@
 import { Pet } from "@/generated/prisma/client";
 import {
   Age,
+  AnimalType,
   EnergyLevel,
   IndependenceLevel,
   Size,
@@ -15,6 +16,7 @@ interface RegisterPetInterfaceRequest {
   name: string;
   about: string;
   age: Age;
+  animal_type: AnimalType;
   size: Size;
   energy_level: EnergyLevel;
   independence_level: IndependenceLevel;
@@ -35,6 +37,7 @@ export class RegisterPetService {
     name,
     about,
     age,
+    animal_type,
     size,
     energy_level,
     independence_level,
@@ -47,6 +50,7 @@ export class RegisterPetService {
       name,
       about,
       age,
+      animal_type,
       size,
       energy_level,
       independence_level,

@@ -5,6 +5,7 @@ import {
   Pet,
   Size,
 } from "@/generated/prisma/client";
+import { AnimalType } from "@/generated/prisma/enums";
 import { faker } from "@faker-js/faker";
 import { Decimal } from "@prisma/client/runtime/client";
 import { randomUUID } from "node:crypto";
@@ -25,6 +26,7 @@ export function populatePets(): PopulatePetsResponse {
   ];
 
   const sizes: Size[] = ["SMALL", "MEDIUM", "BIG"];
+  const animalTypes: AnimalType[] = ["DOG", "CAT"];
   const energyLevels: EnergyLevel[] = ["LOW", "MEDIUM", "HIGH"];
   const independenceLevels: IndependenceLevel[] = ["LOW", "MEDIUM", "HIGH"];
 
@@ -61,6 +63,7 @@ export function populatePets(): PopulatePetsResponse {
       name: faker.person.firstName(),
       about: faker.lorem.paragraph(),
       age: faker.helpers.arrayElement(["BABY", "PUPPY", "ADULT", "SENIOR"]),
+      animal_type: faker.helpers.arrayElement(animalTypes),
       size: faker.helpers.arrayElement(sizes),
       energy_level: faker.helpers.arrayElement(energyLevels),
       independence_level: faker.helpers.arrayElement(independenceLevels),

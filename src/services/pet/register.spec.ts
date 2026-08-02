@@ -19,10 +19,12 @@ describe("Register PET Use Case", () => {
       size: "SMALL",
       energy_level: "MEDIUM",
       independence_level: "MEDIUM",
+      animal_type: "DOG",
       environment: "Domestico",
       org_id: "ORG-01",
     });
 
     expect(pet.id).toEqual(expect.any(String));
+    expect(pet.animal_type).toEqual("DOG");
   });
 });
