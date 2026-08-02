@@ -13,7 +13,7 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
     name: nonEmtpyString,
     email: z.email(),
     password: z.string().min(6),
-    whatsapp: z.string().length(11, "WhatsApp number not provided or invalid."),
+    whatsapp: z.string().min(11),
     cep: nonEmtpyString
       .transform((val) => val.replace(/\D/g, ""))
       .refine((val) => val.length === 8, {
@@ -30,18 +30,17 @@ export async function register(request: FastifyRequest, replay: FastifyReply) {
     }),
   });
 
-  const org = registerBodySchema.parse(request.body);
+  const orgBody = registerBodySchema.parse(request.body);
 
   try {
     const registerOrgService = makeRegisterOrgService();
 
-    await registerOrgService.execute(org);
+    const org = await registerOrgService.execute(orgBody);
+    return replay.status(201).send({ org });
   } catch (error) {
     if (error instanceof EmailAlreadeExistsError) {
       return replay.status(409).send({ message: error.message });
     }
     throw error;
   }
-
-  return replay.status(201).send();
 }
