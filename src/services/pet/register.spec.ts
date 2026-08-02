@@ -15,7 +15,7 @@ describe("Register PET Use Case", () => {
     const { pet } = await sut.execute({
       name: "Coloral",
       about: "Cate top",
-      age: "2",
+      age: "ADULT",
       size: "SMALL",
       energy_level: "MEDIUM",
       independence_level: "MEDIUM",

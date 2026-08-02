@@ -1,5 +1,10 @@
 import { Pet } from "@/generated/prisma/client";
-import { EnergyLevel, IndependenceLevel, Size } from "@/generated/prisma/enums";
+import {
+  Age,
+  EnergyLevel,
+  IndependenceLevel,
+  Size,
+} from "@/generated/prisma/enums";
 import { PetsRepository } from "@/repositories/pets-repositore";
 
 interface PetRequirementInput {
@@ -9,13 +14,14 @@ interface PetRequirementInput {
 interface RegisterPetInterfaceRequest {
   name: string;
   about: string;
-  age: string;
+  age: Age;
   size: Size;
   energy_level: EnergyLevel;
   independence_level: IndependenceLevel;
   environment: string;
   org_id: string;
-  petRequirements?: PetRequirementInput[];
+  petRequirements?: string[];
+  petImages?: string[];
 }
 
 interface RegisterPetInterfaceResponse {
@@ -35,6 +41,7 @@ export class RegisterPetService {
     environment,
     org_id,
     petRequirements,
+    petImages,
   }: RegisterPetInterfaceRequest): Promise<RegisterPetInterfaceResponse> {
     const pet = await this.petRepository.create({
       name,
@@ -49,8 +56,15 @@ export class RegisterPetService {
         ? {
             petRequirements: {
               create: petRequirements.map((requirement) => ({
-                title: requirement.title,
+                title: requirement,
               })),
+            },
+          }
+        : {}),
+      ...(petImages && petImages.length > 0
+        ? {
+            petImages: {
+              create: petImages.map((url) => ({ url })),
             },
           }
         : {}),

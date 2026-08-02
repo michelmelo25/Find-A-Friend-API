@@ -1,16 +1,28 @@
-import { Pet } from "@/generated/prisma/client";
+import { Pet, Prisma } from "@/generated/prisma/client";
 import { PetUncheckedCreateInput } from "@/generated/prisma/models";
 import { FindManyByOptionsParams } from "../in-memory/in-memory-pets-repository";
 import { PetsRepository, PetWithRelations } from "../pets-repositore";
 import { prisma } from "@/lib/prisma";
+import { ResourceNotFoundError } from "@/services/errors/resource-not-found-error";
 
 export class PrismaPetsRepository implements PetsRepository {
   async create(data: PetUncheckedCreateInput) {
-    const pet = await prisma.pet.create({
-      data,
-    });
+    try {
+      const pet = await prisma.pet.create({
+        data,
+      });
 
-    return pet;
+      return pet;
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2003"
+      ) {
+        throw new ResourceNotFoundError();
+      }
+
+      throw error;
+    }
   }
   async findById(id: string) {
     const pet = await prisma.pet.findUnique({

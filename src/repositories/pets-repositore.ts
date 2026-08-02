@@ -12,7 +12,7 @@ export type PetWithRelations = Pet & {
 };
 
 export interface PetsRepository {
-  create(data: Prisma.PetUncheckedCreateInput): Promise<Pet | null>;
+  create(data: Prisma.PetUncheckedCreateInput): Promise<Pet>;
   findById(id: string): Promise<PetWithRelations | null>;
   findByCity(city: string, UF: string): Promise<PetWithRelations[] | null>;
   findManyByOptions(
