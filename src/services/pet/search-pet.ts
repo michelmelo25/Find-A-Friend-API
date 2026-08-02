@@ -1,7 +1,7 @@
 import {
+  Age,
   EnergyLevel,
   IndependenceLevel,
-  Pet,
   Size,
 } from "@/generated/prisma/client";
 import {
@@ -12,8 +12,8 @@ import { ResourceNotFoundError } from "../errors/resource-not-found-error";
 
 interface SearchPetInterfaceRequest {
   city: string;
-  uf: string;
-  age?: string;
+  state: string;
+  age?: Age;
   energy_level?: EnergyLevel;
   size?: Size;
   independence_level?: IndependenceLevel;

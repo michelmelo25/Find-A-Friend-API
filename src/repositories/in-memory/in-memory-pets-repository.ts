@@ -1,4 +1,6 @@
 import {
+  Age,
+  AnimalType,
   EnergyLevel,
   IndependenceLevel,
   Pet,
@@ -13,8 +15,9 @@ import { InMemoryOrgsRepository } from "./in-memory-orgs-repository";
 
 export interface FindManyByOptionsParams {
   city: string;
-  uf: string;
-  age?: string;
+  state: string;
+  age?: Age;
+  animal_type?: AnimalType;
   energy_level?: EnergyLevel;
   size?: Size;
   independence_level?: IndependenceLevel;
