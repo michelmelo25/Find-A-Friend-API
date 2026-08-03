@@ -65,7 +65,7 @@ Para auxiliar no entendimento do negócio e em como os endpoints serão consumid
 - [x] Restrição de acessos administrativos utilizando middlewares de autenticação (JWT).
 - [x] Criação de Repositórios em memória (_In-Memory Repositories_) para viabilizar testes isolados e rápidos.
 - [x] Cobertura de Testes Unitários para validar todas as regras de negócio cruciais.
-- [ ] Cobertura de Testes de Integração (E2E) para garantir o comportamento correto das rotas e controllers da API.
+- [x] Cobertura de Testes de Integração (E2E) para garantir o comportamento correto das rotas e controllers da API.
 
 ---
 
