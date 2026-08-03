@@ -1,0 +1,45 @@
+name: Run E2E tests
+
+on: [pull_request]
+
+jobs:
+  run-e2e-tests:
+    name: "Run e2e tests"
+    runs-on: ubuntu-latest
+
+    services:
+      find-a-frind-pg:
+        image: bitnami/postgresql
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: docker
+          POSTGRESQL_PASSWORD: docker
+          POSTGRESQL_DATABASE: find-a-friend-pg
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm install --package-lock-only
+            npm ci
+          else
+            npm install
+          fi
+      - run: npx prisma generate
+        env:
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/find-a-friend-pg?schema=public"
+      - run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/find-a-friend-pg?schema=public"
+
+      - run: npm run test:e2e -- --fileParallelism=false
+        env:
+          JWT_SECRET: ndjfhdjhfh
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/find-a-friend-pg?schema=public"

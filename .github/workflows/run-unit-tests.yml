@@ -15,7 +15,13 @@ jobs:
           node-version: 24
           cache: "npm"
 
-      - run: npm ci
+      - run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm install --package-lock-only
+            npm ci
+          else
+            npm install
+          fi
       - run: npx prisma generate
         env:
           DATABASE_URL: "postgresql://user:password@localhost:5432/test_db"
