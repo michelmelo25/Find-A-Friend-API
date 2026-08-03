@@ -1,5 +1,5 @@
 import { app } from "@/app";
-import { faker, fakerPT_BR } from "@faker-js/faker";
+import { fakerPT_BR } from "@faker-js/faker";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 

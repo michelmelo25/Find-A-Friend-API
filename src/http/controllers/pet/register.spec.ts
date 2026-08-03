@@ -1,9 +1,10 @@
 import { app } from "@/app";
-import { CreateAndAuthenticateOrg } from "@/utils/test/create-and-authenticate-org";
 import request from "supertest";
+import { CreateAndAuthenticateOrg } from "@/utils/test/create-and-authenticate-org";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { GeneratePet } from "@/utils/test/generate-pet";
 
-describe("Get profile a ORG e2e", () => {
+describe("Register PET E2E", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -11,15 +12,14 @@ describe("Get profile a ORG e2e", () => {
     await app.close();
   });
 
-  it("should be able to get profile a org", async () => {
+  it("should be able to register a pet", async () => {
     const { token, email } = await CreateAndAuthenticateOrg(app);
 
     const response = await request(app.server)
-      .get("/me")
+      .post("/pets")
       .set("Authorization", `Bearer ${token}`)
-      .send();
+      .send(await GeneratePet());
 
-    expect(response.statusCode).toEqual(200);
-    expect(response.body.org).toEqual(expect.objectContaining({ email }));
+    expect(response.statusCode).toEqual(201);
   });
 });
