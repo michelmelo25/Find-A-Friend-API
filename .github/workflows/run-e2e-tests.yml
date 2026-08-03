@@ -33,11 +33,11 @@ jobs:
           fi
       - run: npx prisma generate
         env:
-          DATABASE_URL: "postgresql://user:password@localhost:5432/test_db"
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/find-a-friend-pg?schema=public"
       - run: npx prisma migrate deploy
         env:
-          DATABASE_URL: "postgresql://user:password@localhost:5432/test_db"
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/find-a-friend-pg?schema=public"
       - run: npm run test:e2e
         env:
           JWT_SECRET: ndjfhdjhfh
-          DATABASE_URL: "postgresql://user:password@localhost:5432/test_db"
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/find-a-friend-pg?schema=public"
